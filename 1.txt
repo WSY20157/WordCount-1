@@ -1,3 +1,49 @@
-222
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+int main(int argc, char* argv[])   //命令行传参，argc代表传入参数个数，argv表示传入的参数
+{
+	char *a_in;  //用于保存从文件中读入的数据
+	int i;
+	int count1 = -1;  //统计文件中字符个数
+	FILE *in1;  //用于指向文件地址
 
-1111
+	if (argc != 2)   //判断输入参数个数，如果不为2个就报错
+	{
+		printf("参数个数错误");
+		return -1;
+	}
+
+	in1 = fopen(argv[1], "r");   //打开文件，只读，argv[1]表示文件的第二个参数，第一个参数为argv[0]，表示运行的命令参数
+	if (in1 == NULL)  //无法打开文件
+	{
+		printf("File cannot open! ");
+		//exit;  
+		return 0;
+	}
+
+	a_in = (char*)malloc(sizeof(char)* 100);  //动态内存分配
+	if (!a_in)  //分配内存失败
+	{
+		printf("内存分配失败");
+		return-1;
+	}
+	printf("c_data文件中的数据为：\n");
+	while ((*(a_in) = fgetc(in1)) != EOF)  //只要未到文件末尾就继续读
+	{
+		printf("%s\t", a_in);  //打印文件内容，此处打印的文件数据为字符
+		if (*(a_in) == '\n' || *(a_in) == ' ')    //判断不是空格或换行就计数
+		{
+			count1++;  //统计有多少个数
+		}
+	}
+
+	printf("\n");
+	printf("c_data.txt中数字个数为:%d\n", count1);  //打印计数结果
+
+	fclose(in1);  //关闭文件指针
+	return 0;
+	free(a_in);//释放第一维指针 
+	return 0;
+}
